@@ -1,13 +1,10 @@
 package com.example.MobilitySupport.Controller;
 
 
-import com.example.MobilitySupport.DTO.ChargerDTO;
-import com.example.MobilitySupport.DTO.ChargingStationDTO;
 import com.example.MobilitySupport.DTO.Map;
 import com.example.MobilitySupport.Service.MapService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
 import org.json.JSONArray;
@@ -27,7 +24,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -202,8 +198,12 @@ public class MapController {
     public String data(Model model, @RequestParam("lng") String lng, @RequestParam("lat") String lat, HttpServletResponse response) {
         String REST_KEY = "9f023ef16b3fb6d5c62b7032504394d0";
 
-        String GEOCODE_URL = "https://dapi.kakao.com/v2/local/geo/coord2address.json?";
+        String GEOCODE_URL = "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?";
         String GEOCODE_USER_INFO = "KakaoAK 9f023ef16b3fb6d5c62b7032504394d0";
+
+
+
+       // https://developers.kakao.com/docs/latest/ko/local/dev-guide#coord-to-address
 
         URL obj;
         try {
@@ -223,23 +223,15 @@ public class MapController {
                 result.append(returnLine);
             }
             JSONObject jsonObject = new JSONObject(result.toString());
-            JSONArray documents = (JSONArray) jsonObject.get("documents");
-            System.out.println(documents);
-            JSONObject road_address = (JSONObject) documents.getJSONObject(0).get("address");
-            String region_2depth_name = road_address.getString("region_2depth_name");
-            System.out.println(region_2depth_name.toString());
-            String[] words = region_2depth_name.split(" ");
-            System.out.println(words[0]);
 
-            //System.out.println(zscodeService.findOne(words[0]).get().getCode());
+            String code = jsonObject.getJSONArray("documents").getJSONObject(0).getString("code");
+            System.out.println(code+"얏호");
             try {
                 String apiUrl = "http://apis.data.go.kr/B552584/EvCharger/getChargerInfo?" +
                         "serviceKey=sOX%2FsqEZDC54GnTToCeYUqGYII9bcjIrgXmvjmjNs%2BhYne2OMkbwhRdyObE7A%2B4%2FMCH1zSb8%2BENu0uYsoPRsBg%3D%3D" +
                         "&numOfRows=9999" +
                         "&pageNo=1"
-                        +"&zscode=11110";
-
-                //zscodeService.findOne(words[0]).get().getCode();
+                        +"&zscode=43110";
 
                 URL url = new URL(apiUrl);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -255,7 +247,7 @@ public class MapController {
                 JSONObject response1 = jsonObject1.getJSONObject("response");
                 JSONObject body = response1.getJSONObject("body");
                 JSONObject items = body.getJSONObject("items");
-                System.out.println(items);
+                //System.out.println(items);
                 JSONArray item = items.getJSONArray("item");
 
                 mapService.updateData(item);
