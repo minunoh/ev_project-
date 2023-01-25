@@ -1,7 +1,7 @@
 # ev_project-
 스프링 부트 / 전기차 충전소 지도 사이트
 
-## "\U0001f50b" 프로젝트 소개
+## :red_car: 프로젝트 소개
 TMap을 참고하여 만든 전기차 충전소 지도 사이트입니다.
 
 ## :books: 프로젝트 정보
@@ -13,7 +13,7 @@ TMap을 참고하여 만든 전기차 충전소 지도 사이트입니다.
 - 노민우 - 지도 관련 서비스, DB설계
 - 신준오 - 로그인, 회원가입 등 기본 서비스 관련
 
-### "\U0001f527" 개발환경
+### 개발환경
 - Front : jsp,html...
 - Server : Apache, Tomcat, MySQL
 - Database : Local(Mybatis 사용)
