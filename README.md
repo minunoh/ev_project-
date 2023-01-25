@@ -1,4 +1,4 @@
-# ev_project-
+# :battery: :red_car: ev_project-
 스프링 부트 / 전기차 충전소 지도 사이트
 
 ## 프로젝트 소개
