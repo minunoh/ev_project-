@@ -11,11 +11,11 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TestRepository extends JpaRepository<Map,Long> {
-    Page<Map> findByZcode(Long Zcode, Pageable pageable);
-    List<Map> findByZcode(Long Zcode);
+    Page<Map> findByAddrContaining(String addr, Pageable pageable);
+    List<Map> findByAddrContaining(String addr);
 
-
-
+    //https://zara49.tistory.com/130
+    //https://devmoony.tistory.com/132
     //https://studyandwrite.tistory.com/495
     @Transactional
     @Modifying(clearAutomatically = true)

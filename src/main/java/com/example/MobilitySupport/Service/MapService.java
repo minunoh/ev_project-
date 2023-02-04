@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,17 +89,24 @@ public class MapService {
     }
 
 
-    public Page<Map> findByZcode(int page, Long zcode) {
-        return testRepository.findByZcode(zcode, PageRequest.of(page, 30, Sort.by(Sort.Direction.ASC, "id")));
+    public Page<Map> findByAddrContaining(Pageable pageable, String addr) {
+        return testRepository.findByAddrContaining(addr, pageable);
 
+    }
+
+    public Page<Map> getBoardList(Pageable pageable,String addr) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "id")); // <- Sort 추가
+
+        return testRepository.findByAddrContaining(addr, pageable);
     }
 
     public List<Map> findByAll() {
         return testRepository.findAll();
     }
 
-    public List<Map> findByChargingStation(Long zcode) {
-        return testRepository.findByZcode(zcode);
+    public List<Map> findByChargingStation(String addr) {
+        return testRepository.findByAddrContaining(addr);
     }
 
 
